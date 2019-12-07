@@ -3,6 +3,7 @@ plugins {
     id "application"
     id 'org.openjfx.javafxplugin' version '0.0.8'
     id "idea"
+    id "org.jetbrains.kotlin.jvm" version "1.3.61"
 }
 
 javafx {
@@ -24,7 +25,7 @@ sourceSets {
     main.resources.srcDir "src/main/resources"
 }
 
-mainClassName = "com.hunyadym.Main"
+mainClassName = "app/com.hunyadym.Main"
 
 jar {
     manifest {
@@ -40,5 +41,5 @@ repositories {
 }
 
 dependencies {
-
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
 }

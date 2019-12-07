@@ -1,10 +1,10 @@
-module com.hunyadym {
+module app {
     exports com.hunyadym;
-    exports com.hunyadym.controllers;
 
     requires java.logging;
     requires transitive javafx.graphics;
     requires transitive javafx.controls;
     requires transitive javafx.fxml;
+    requires kotlin.stdlib;
     opens com.hunyadym.controllers;
 }

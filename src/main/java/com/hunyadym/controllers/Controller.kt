@@ -1,54 +1,56 @@
-package com.hunyadym.controllers;
+package com.hunyadym.controllers
 
-import javafx.application.Platform;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import com.hunyadym.Mode
+import javafx.application.Platform
+import javafx.fxml.FXML
+import javafx.fxml.Initializable
+import javafx.scene.image.Image
+import javafx.scene.image.ImageView
+import java.net.URL
+import java.util.*
 
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.ResourceBundle;
-
-public class Controller implements Initializable {
-
+class Controller : Initializable {
     @FXML
-    ImageView image;
+    lateinit var image: ImageView
 
-    Image izzo1;
-    Image izzo2;
+    private lateinit var lightsOn: Image
+    private lateinit var lightsOff: Image
+    private var lightState = false
 
-    boolean light = false;
+    override fun initialize(location: URL?, resources: ResourceBundle?) {
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    }
 
-        try {
-            System.out.println(getClass().getResource("izzo_jobb_1.png").toURI().toString());
+    fun start(mode: Mode) {
+        loadLights(mode)
 
-            izzo1 = new Image(getClass().getResource("izzo_jobb_1.png").toURI().toString());
-            izzo2 = new Image(getClass().getResource("izzo_jobb_2.png").toURI().toString());
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
 
-        new Thread(() -> {
+        Thread(Runnable {
             while (true) {
-                try {
-                    Thread.sleep(400);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                Platform.runLater(() -> {
-                    if (light) {
-                        image.setImage(izzo1);
-                        light = !light;
+                Thread.sleep(400)
+                Platform.runLater {
+                    if (lightState) {
+                        image.image = lightsOn
+                        lightState = !lightState
                     } else {
-                        image.setImage(izzo2);
-                        light = !light;
+                        image.image = lightsOff
+                        lightState = !lightState
                     }
-                });
+                }
             }
-        }).start();
+        }).start()
+    }
+
+    private fun loadLights(mode: Mode) {
+        when (mode) {
+            Mode.LEFT -> {
+                lightsOn = Image(javaClass.getResource("izzo_bal_1.png").toURI().toString())
+                lightsOff = Image(javaClass.getResource("izzo_bal_2.png").toURI().toString())
+            }
+            else -> {
+                lightsOn = Image(javaClass.getResource("izzo_jobb_1.png").toURI().toString())
+                lightsOff = Image(javaClass.getResource("izzo_jobb_2.png").toURI().toString())
+            }
+        }
     }
 }

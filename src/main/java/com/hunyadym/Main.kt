@@ -1,60 +1,56 @@
-package com.hunyadym;
+package com.hunyadym
 
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Screen;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
+import com.hunyadym.controllers.Controller
+import javafx.application.Application
+import javafx.fxml.FXMLLoader
+import javafx.geometry.Rectangle2D
+import javafx.scene.Parent
+import javafx.scene.Scene
+import javafx.stage.Screen
+import javafx.stage.Stage
+import javafx.stage.StageStyle
+import java.io.InputStream
+import java.util.stream.Stream
 
-import java.io.IOException;
+class Main : Application() {
+    companion object {
+        @JvmStatic
+        fun main(args: Array<String>) {
+            launch(Main::class.java)
+        }
+    }
 
-public class Main extends Application {
+    override fun start(primaryStage: Stage) {
+        initWindow(Mode.LEFT, Stage())
+        initWindow(Mode.RIGHT, Stage())
+    }
 
-    @Override
-    public void start(Stage primaryStage) {
+    private fun initWindow(mode: Mode, primaryStage: Stage) {
+        val primaryScreenBounds = Screen.getPrimary().visualBounds
+        var root: Parent
+        var controller: Controller
 
-        try {
-            initbal(new Stage());
-            initjobb(new Stage());
-        } catch (IOException e) {
-            e.printStackTrace();
+        FXMLLoader().also {
+            root = it.load(javaClass.getResource("light.fxml").openStream())
+            controller = it.getController<Controller>()
         }
 
+        controller.start(mode)
+
+        setupScreen(root, primaryStage, mode, primaryScreenBounds)
+
     }
 
-    private void initbal(Stage primaryStage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("bal.fxml"));
-        Scene scene = new Scene(root, 200, 100);
-        scene.setFill(null);
-        primaryStage.setScene(scene);
-        primaryStage.setAlwaysOnTop(true);
-        primaryStage.initStyle(StageStyle.UNDECORATED);
-        primaryStage.initStyle(StageStyle.TRANSPARENT);
-        primaryStage.setY(0);
-        primaryStage.setX(0);
-        primaryStage.show();
-    }
-
-    private void initjobb(Stage primaryStage) throws IOException {
-
-        Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-
-        Parent root = FXMLLoader.load(getClass().getResource("jobb.fxml"));
-        Scene scene = new Scene(root, 200, 100);
-        scene.setFill(null);
-        primaryStage.setScene(scene);
-        primaryStage.setAlwaysOnTop(true);
-        primaryStage.initStyle(StageStyle.UNDECORATED);
-        primaryStage.initStyle(StageStyle.TRANSPARENT);
-        primaryStage.setX(primaryScreenBounds.getMaxX() - scene.getWidth());
-        primaryStage.setY(0);
-        primaryStage.show();
-    }
-
-    public static void main(String[] args) {
-        launch(args);
+    private fun setupScreen(root: Parent, primaryStage: Stage, mode: Mode, primaryScreenBounds: Rectangle2D) {
+        val windowScene = Scene(root, 200.0, 100.0).apply { fill = null }
+        with(primaryStage) {
+            scene = windowScene
+            isAlwaysOnTop = true
+            initStyle(StageStyle.UNDECORATED)
+            initStyle(StageStyle.TRANSPARENT)
+            x = if (mode == Mode.LEFT) 0.0 else primaryScreenBounds.maxX - windowScene.width
+            y = 0.0
+            show()
+        }
     }
 }
