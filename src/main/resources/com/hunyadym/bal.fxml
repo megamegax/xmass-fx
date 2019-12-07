@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="103.0"
+            prefWidth="206.0" style="-fx-background-color: rgba(0,0,0,0);" xmlns="http://javafx.com/javafx/8.0.102"
+            fx:controller="com.hunyadym.controllers.BalController"
+            xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <ImageView fx:id="image" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"
+                   AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <image>
+
+            </image>
+        </ImageView>
+    </children>
+</AnchorPane>

@@ -1,0 +1,44 @@
+plugins {
+    id "java"
+    id "application"
+    id 'org.openjfx.javafxplugin' version '0.0.8'
+    id "idea"
+}
+
+javafx {
+    modules = ['javafx.controls', 'javafx.fxml']
+}
+idea {
+    module {
+        inheritOutputDirs = true
+    }
+}
+group 'com.hunyadym'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 11
+targetCompatibility = 11
+
+sourceSets {
+    main.java.srcDir "src/main/java"
+    main.resources.srcDir "src/main/resources"
+}
+
+mainClassName = "com.hunyadym.Main"
+
+jar {
+    manifest {
+        attributes(
+                'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+                'Main-Class': mainClassName
+        )
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+}
